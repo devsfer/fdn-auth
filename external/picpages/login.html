@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,400i,500,500i&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tiro+Devanagari+Marathi&amp;display=swap">
     <link rel="stylesheet" href="../../assets/css/styles.css">
-<!-- At the bottom of login.html -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
   import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
@@ -32,13 +31,16 @@
   const form = document.getElementById("loginForm");
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      alert("Logged in successfully!");
-      window.location.href = "https://devsfer.github.io/picpages/directory"; // or directory.html
+      const userCred = await signInWithEmailAndPassword(auth, email, password);
+      const idToken = await userCred.user.getIdToken();
+
+      localStorage.setItem("picpagesSession", idToken);
+      window.location.href = "https://devsfer.github.io/picpages/directory/";
     } catch (error) {
       alert("Login failed: " + error.message);
     }

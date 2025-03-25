@@ -3,6 +3,18 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Sign Up - External | Central Authentication System</title>
+    <link rel="icon" type="image/png" sizes="2100x2184" href="../../assets/img/U%20Logo.png">
+    <link rel="icon" type="image/png" sizes="2100x2184" href="../../assets/img/U%20Logo.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="2100x2184" href="../../assets/img/U%20Logo.png">
+    <link rel="icon" type="image/png" sizes="2100x2184" href="../../assets/img/U%20Logo.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="2100x2184" href="../../assets/img/U%20Logo.png">
+    <link rel="icon" type="image/png" sizes="2100x2184" href="../../assets/img/U%20Logo.png">
+    <link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,400i,500,500i&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tiro+Devanagari+Marathi&amp;display=swap">
+    <link rel="stylesheet" href="../../assets/css/styles.css">
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
   import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
@@ -51,25 +63,15 @@
         photoUrl
       });
 
-      alert("Account created and profile saved!");
-      window.location.href = "https://devsfer.github.io/picpages/directory";
+      const idToken = await userCred.user.getIdToken();
+      localStorage.setItem("picpagesSession", idToken);
+
+      window.location.href = "https://devsfer.github.io/picpages/directory/";
     } catch (error) {
-      alert(error.message);
+      alert("Sign-up failed: " + error.message);
     }
   });
 </script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Sign Up - External | Central Authentication System</title>
-    <link rel="icon" type="image/png" sizes="2100x2184" href="../../assets/img/U%20Logo.png">
-    <link rel="icon" type="image/png" sizes="2100x2184" href="../../assets/img/U%20Logo.png" media="(prefers-color-scheme: dark)">
-    <link rel="icon" type="image/png" sizes="2100x2184" href="../../assets/img/U%20Logo.png">
-    <link rel="icon" type="image/png" sizes="2100x2184" href="../../assets/img/U%20Logo.png" media="(prefers-color-scheme: dark)">
-    <link rel="icon" type="image/png" sizes="2100x2184" href="../../assets/img/U%20Logo.png">
-    <link rel="icon" type="image/png" sizes="2100x2184" href="../../assets/img/U%20Logo.png">
-    <link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,400i,500,500i&amp;display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tiro+Devanagari+Marathi&amp;display=swap">
-    <link rel="stylesheet" href="../../assets/css/styles.css">
 </head>
 
 <body style="background: #2d2d2d;">
