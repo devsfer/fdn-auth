@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en" style="font-family: Poppins, sans-serif;">
+
+<head>
+    <meta charset="utf-8">
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+  import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBFippTUHmMjLDnxC3teVgv3QoZLA7e2po",
+    authDomain: "sso-authentication-d474d.firebaseapp.com",
+    projectId: "sso-authentication-d474d",
+    storageBucket: "sso-authentication-d474d.appspot.com"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
+
+  const form = document.getElementById("loginForm");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const preferredName = document.getElementById("name").value.trim();
+    const pronouns = document.getElementById("pronouns").value.trim();
+    const role = document.querySelector("select").value;
+    const file = document.getElementById("profile").files[0];
+
+    try {
+      const userCred = await createUserWithEmailAndPassword(auth, email, password);
+      const uid = userCred.user.uid;
+
+      let photoUrl = "";
+      if (file) {
+        const photoRef = ref(storage, `profilePhotos/${uid}`);
+        await uploadBytes(photoRef, file);
+        photoUrl = await getDownloadURL(photoRef);
+      }
+
+      await setDoc(doc(db, "students", uid), {
+        email,
+        preferredName,
+        pronouns,
+        role,
+        photoUrl
+      });
+
+      alert("Account created and profile saved!");
+      window.location.href = "https://devsfer.github.io/picpages/directory";
+    } catch (error) {
+      alert(error.message);
+    }
+  });
+</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Sign Up - External | Central Authentication System</title>
+    <link rel="icon" type="image/png" sizes="2100x2184" href="../../assets/img/U%20Logo.png">
+    <link rel="icon" type="image/png" sizes="2100x2184" href="../../assets/img/U%20Logo.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="2100x2184" href="../../assets/img/U%20Logo.png">
+    <link rel="icon" type="image/png" sizes="2100x2184" href="../../assets/img/U%20Logo.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="2100x2184" href="../../assets/img/U%20Logo.png">
+    <link rel="icon" type="image/png" sizes="2100x2184" href="../../assets/img/U%20Logo.png">
+    <link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,400i,500,500i&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tiro+Devanagari+Marathi&amp;display=swap">
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+
+<body style="background: #2d2d2d;">
+    <section class="d-flex justify-content-center align-items-center">
+        <div class="container">
+            <div class="row justify-content-center" style="background: #005612;">
+                <div class="col-sm-12 col-md-12 col-lg-11">
+                    <div class="card justify-content-center" style="border-radius: 0px;height: 10vh;background: transparent;border-width: 0px;margin-bottom: 3vh;margin-top: 5vh;"><img class="card-img-top w-100 d-block" src="../../assets/img/UKG%20Color.png" style="margin-left: 16px;"></div>
+                    <div class="card justify-content-center" style="border-radius: 0px;height: 6vh;background: transparent;border-width: 0px;border-top: 3px solid white;">
+                        <h4 style="margin: 0px;margin-left: 16px;margin-right: 16px;color: white;font-size: 12px;"><a href="mailto:its@ordunafoundation.org" style="color: white;font-size: 16px;">Help</a></h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center" style="background: white;padding-bottom: 5vh;padding-top: 2vh;">
+                <div class="col-sm-5 col-md-5 col-lg-4">
+                    <div class="card" style="border-radius: 0px;border-width: 0px;">
+                        <div class="card-body" style="background: #929292;margin-top: 16px;margin-right: 12px;margin-bottom: 16px;margin-left: 12px;">
+                            <h1 style="font-family: Poppins, sans-serif;font-size: 20px;">Make sure your session is secure</h1>
+                            <p>Before entering your email and password, verify that the URL for this page begins with:</p>
+                            <p><strong>secure.its.ordunafoundation.org</strong></p>
+                            <p>To protect sensitive information, quit your web browser when you are finished with your session</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-7 col-md-7 col-lg-7">
+                    <div class="card" style="border-radius: 0px;border-width: 0px;">
+                        <div class="card-body" style="border-width: 0px;">
+                            <h4 class="card-title">Create an Account</h4>
+                            <form id="loginForm"><label class="form-label" style="font-size: 12px;color: rgb(151,151,151);margin-bottom: 0px;font-family: Poppins, sans-serif;">Preferred Name (Ex: Sara Li)</label><input class="form-control" type="text" id="name" name="name" required="" style="font-size: 12px;"><label class="form-label" style="font-size: 12px;color: rgb(151,151,151);margin-bottom: 0px;font-family: Poppins, sans-serif;">Pronouns (Ex: she/her)</label><input class="form-control" type="text" id="pronouns" name="pronouns" required="" style="font-size: 12px;"><label class="form-label" style="font-size: 12px;color: rgb(151,151,151);margin-bottom: 0px;font-family: Poppins, sans-serif;">Profile Picture Upload</label><input class="form-control" type="file" id="profile" style="font-size: 12px;" name="profile" required="" accept="image/*"><label class="form-label" style="font-size: 12px;color: rgb(151,151,151);margin-bottom: 0px;font-family: Poppins, sans-serif;">Role</label><select class="form-select" style="font-size: 12px;">
+                                    <optgroup label="ASMSA">
+                                        <option value="" selected="">Class of 2025</option>
+                                        <option value="">Class of 2026</option>
+                                        <option value="">Class of 2027</option>
+                                        <option value="">Faculty/Staff</option>
+                                    </optgroup>
+                                </select><label class="form-label" style="font-size: 12px;color: rgb(151,151,151);margin-bottom: 0px;font-family: Poppins, sans-serif;">Email (ex: flast@ordunafoundation.org)</label><input class="form-control" type="email" id="email" name="email" required="" style="font-size: 12px;"><label class="form-label" style="font-size: 12px;color: rgb(151,151,151);margin-bottom: 0px;font-family: Poppins, sans-serif;">Password (min: 8 characters)</label><input class="form-control" type="password" id="password" name="password" required="" minlength="8" style="font-size: 12px;"><button class="btn btn-primary" type="submit" style="margin-top: 15px;border-radius: 0px;background: rgb(30,46,69);border-width: 0px;border-top-width: 0px;">Sign Up</button></form>
+                            <div class="row">
+                                <div class="col" style="margin-top: 20px;"><a class="link-underline-bl" href="/login">Already have an account? Log in</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="../../assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
