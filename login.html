@@ -24,7 +24,7 @@
     try {
       await signInWithEmailAndPassword(auth, email, password);
       alert("Logged in successfully!");
-      window.location.href = "/directory.html"; // or another page
+      window.location.href = "/profile.html"; // or another page
     } catch (error) {
       alert(error.message);
     }
