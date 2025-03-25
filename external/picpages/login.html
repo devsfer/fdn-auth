@@ -39,7 +39,10 @@
       const userCred = await signInWithEmailAndPassword(auth, email, password);
       const idToken = await userCred.user.getIdToken();
 
+      // Store ID token to manually pass it to PicPages (GitHub Pages can't access Firebase session)
       localStorage.setItem("picpagesSession", idToken);
+
+      // Redirect to directory page
       window.location.href = "https://devsfer.github.io/picpages/directory/";
     } catch (error) {
       alert("Login failed: " + error.message);

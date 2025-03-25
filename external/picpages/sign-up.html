@@ -66,6 +66,7 @@
       const idToken = await userCred.user.getIdToken();
       localStorage.setItem("picpagesSession", idToken);
 
+      // Redirect to directory page
       window.location.href = "https://devsfer.github.io/picpages/directory/";
     } catch (error) {
       alert("Sign-up failed: " + error.message);
